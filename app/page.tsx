@@ -2,7 +2,6 @@
 import { Button, Image } from "@heroui/react";
 import Head from "next/head";
 import Nav from "../components/nav";
-import { link } from "fs";
 import Link from "next/link";
 
 export default function Home() {

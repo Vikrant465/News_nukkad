@@ -11,7 +11,7 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   Link,
-  Button,
+//   Button,
   Switch,
   Image
 } from "@heroui/react";
@@ -43,7 +43,7 @@ export default function Nav() {
     setIsDark(prefersDark);
     document.documentElement.classList.toggle("dark", prefersDark);
   }, []);
-  // @ts-ignore
+  
   const toggleTheme = (value) => {
     setIsDark(value);
     if (value) {
