@@ -18,6 +18,7 @@ export default function Home() {
           content="News, Headlines, Breaking News, News Nukkad, India News, Digital News"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="google-site-verification" content="BvMHg7XVl3fA1d1AUVJVWnRm790HD9Go_KTafGyeqXo" />
       </Head>
 
       <div className="flex flex-col h-screen bg-white text-black dark:bg-zinc-900 dark:text-white transition-colors duration-300">
