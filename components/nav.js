@@ -13,7 +13,8 @@ import {
   Link,
   Button,
   Switch,
-  Image
+  Image,
+  Alert
 } from "@heroui/react";
 
 export const AcmeLogo = () => {
@@ -73,11 +74,20 @@ export default function Nav() {
             About
           </Link>
         </NavbarItem>
-        <NavbarItem isActive>
+        <NavbarItem >
           <Link aria-current="page" href="/blog">
             Blog
           </Link>
         </NavbarItem>
+        {isAuthenticated ? (
+          <NavbarItem >
+            <Link aria-current="page" href="/upload">
+              Upload
+            </Link>
+          </NavbarItem>
+        ) :undefined
+        }
+
       </NavbarContent>
 
       <NavbarContent justify="end" className="items-center gap-4">
