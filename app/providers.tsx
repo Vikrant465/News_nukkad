@@ -1,12 +1,14 @@
 // app/providers.tsx
-'use client'
+'use client';
+import { HeroUIProvider } from '@heroui/react'
+import { SessionProvider } from "next-auth/react";
 
-import {HeroUIProvider} from '@heroui/react'
-
-export function Providers({children}: { children: React.ReactNode }) {
+export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <HeroUIProvider>
-      {children}
+      <SessionProvider>
+        {children}
+      </SessionProvider>
     </HeroUIProvider>
   )
 }

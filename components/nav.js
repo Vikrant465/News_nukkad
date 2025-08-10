@@ -1,7 +1,7 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import { MoonIcon, SunIcon } from "./icon";
-
+import { signIn, signOut, useSession } from "next-auth/react";
 import {
   Navbar,
   NavbarBrand,
@@ -11,7 +11,7 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   Link,
-//   Button,
+  Button,
   Switch,
   Image
 } from "@heroui/react";
@@ -27,23 +27,22 @@ export const AcmeLogo = () => {
 };
 
 export default function Nav() {
+  const { data: session, status } = useSession();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
-  const menuItems = [
-    "About",
-    "Blog",
-    "Link",
-    "Log Out",
-  ];
   const [isDark, setIsDark] = useState(false);
+
+  const isAuthenticated = status === "authenticated";
+
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     const prefersDark =
-      storedTheme === "dark" || (!storedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches);
+      storedTheme === "dark" ||
+      (!storedTheme &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches);
     setIsDark(prefersDark);
     document.documentElement.classList.toggle("dark", prefersDark);
   }, []);
-  
+
   const toggleTheme = (value) => {
     setIsDark(value);
     if (value) {
@@ -79,47 +78,69 @@ export default function Nav() {
             Blog
           </Link>
         </NavbarItem>
-        <NavbarItem>
-          {/* <Link color="foreground" href="#">
-            Integrations
-          </Link> */}
-        </NavbarItem>
       </NavbarContent>
-      <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
-        </NavbarItem>
+
+      <NavbarContent justify="end" className="items-center gap-4">
+        {isAuthenticated ? (
+          <>
+            <NavbarItem>
+              <p className="text-sm font-medium">
+                Hello, {session?.user?.name || "User"}
+              </p>
+            </NavbarItem>
+            <NavbarItem>
+              <Button color="danger" variant="ghost" onPress={() => signOut()}>
+                Sign Out
+              </Button>
+            </NavbarItem>
+          </>
+        ) : (
+          <NavbarItem>
+            <Button color="primary" onPress={() => signIn("google")}>
+              Google Login
+            </Button>
+          </NavbarItem>
+        )}
         <NavbarItem>
           <Switch
-          isSelected={isDark}
-          onValueChange={toggleTheme}
-          size="md"
-          color="primary"
-          thumbIcon={({ isSelected, className }) =>
-            isSelected ? (
-              <SunIcon className={className} />
-            ) : (
-              <MoonIcon className={className} />
-            )
-          }
-        ></Switch>
+            isSelected={isDark}
+            onValueChange={toggleTheme}
+            size="md"
+            color="primary"
+            thumbIcon={({ isSelected, className }) =>
+              isSelected ? (
+                <SunIcon className={className} />
+              ) : (
+                <MoonIcon className={className} />
+              )
+            }
+          />
         </NavbarItem>
       </NavbarContent>
+
       <NavbarMenu>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
+        <NavbarMenuItem>
+          <Link className="w-full" color="foreground" href="/" size="lg">
+            About
+          </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link className="w-full" color="primary" href="/blog" size="lg">
+            Blog
+          </Link>
+        </NavbarMenuItem>
+        {isAuthenticated && (
+          <NavbarMenuItem>
+            <Button
+              color="danger"
+              variant="light"
               className="w-full"
-              color={
-                index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
-              }
-              href="#"
-              size="lg"
+              onPress={() => signOut()}
             >
-              {item}
-            </Link>
+              Sign Out
+            </Button>
           </NavbarMenuItem>
-        ))}
+        )}
       </NavbarMenu>
     </Navbar>
   );
