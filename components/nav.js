@@ -61,7 +61,7 @@ export default function Nav() {
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
-        <NavbarBrand>
+        <NavbarBrand className="hidden sm:flex gap-4">
           <AcmeLogo />
           <p className="font-bold text-inherit">News Nukkad</p>
         </NavbarBrand>
