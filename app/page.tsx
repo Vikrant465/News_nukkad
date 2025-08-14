@@ -8,14 +8,14 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>News Nukkad - Stay Updated with the Latest Headlines</title>
+        <title>News Charcha Official - Stay Updated with the Latest Headlines</title>
         <meta
           name="description"
-          content="News Charcha Officeal is your go-to digital corner for real-time news, trending topics, and breaking stories. Stay informed, stay ahead."
+          content="News Charcha Official is your go-to digital corner for real-time news, trending topics, and breaking stories. Stay informed, stay ahead."
         />
         <meta
           name="keywords"
-          content="News, Headlines, Breaking News, News Charcha, Charcha, News Charcha Officeal, India News, Digital News"
+          content="News, Headlines, Breaking News, News Charcha, Charcha, News Charcha Official, India News, Digital News"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         
@@ -29,7 +29,7 @@ export default function Home() {
             <h1 className="text-5xl font-bold mb-4">
               Welcome to{" "}
               <span className="text-blue-600 dark:text-yellow-400">
-                News Charcha Officeal
+                News Charcha Official
               </span>
             </h1>
             <p className="text-xl mb-6">
@@ -48,7 +48,7 @@ export default function Home() {
           <Image
             isBlurred
             className="rounded-lg shadow-lg"
-            alt="News charcha officeal Logo"
+            alt="News Charcha Official Logo"
             src="/favicon.ico.png"
             width={300}
           />
@@ -60,7 +60,7 @@ export default function Home() {
             <p>
               Stay connected with the latest news from across the nation.
               <br />
-              <span className="text-lg font-semibold">News Charcha Officeal</span> brings
+              <span className="text-lg font-semibold">News Charcha Official</span> brings
               you stories from every street and every voice that matters.
             </p>
           </div>

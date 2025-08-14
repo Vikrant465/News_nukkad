@@ -64,7 +64,7 @@ export default function Nav() {
         />
         <NavbarBrand className="hidden sm:flex gap-4">
           <AcmeLogo />
-          <p className="font-bold text-inherit">News Charcha Officeal</p>
+          <p className="font-bold text-inherit">News Charcha Official</p>
         </NavbarBrand>
       </NavbarContent>
 

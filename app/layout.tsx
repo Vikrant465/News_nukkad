@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "News Nukkad",
-  description: "News Nukkad is your go-to digital corner for real-time news, trending topics, and breaking stories. Stay informed, stay ahead.",
+  title: "News Charcha Official",
+  description: "News Charcha Official is your go-to digital corner for real-time news, trending topics, and breaking stories. Stay informed, stay ahead.",
 };
 
 export default function RootLayout({children}: Readonly<{
