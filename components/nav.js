@@ -64,7 +64,7 @@ export default function Nav() {
         />
         <NavbarBrand className="hidden sm:flex gap-4">
           <AcmeLogo />
-          <p className="font-bold text-inherit">News Nukkad</p>
+          <p className="font-bold text-inherit">News Charcha Officeal</p>
         </NavbarBrand>
       </NavbarContent>
 
@@ -139,6 +139,14 @@ export default function Nav() {
             Blog
           </Link>
         </NavbarMenuItem>
+        {isAuthenticated ? (
+          <NavbarItem >
+            <Link aria-current="page" href="/upload">
+              Upload
+            </Link>
+          </NavbarItem>
+        ) :undefined
+        }
         {isAuthenticated && (
           <NavbarMenuItem>
             <Button
