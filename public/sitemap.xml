@@ -30,13 +30,4 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url> -->
-
-  <!-- YouTube channel -->
-  <url>
-    <loc>https://www.youtube.com/@NewsCharchaOfficial</loc>
-    <lastmod>2025-08-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
 </urlset>
