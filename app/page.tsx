@@ -15,7 +15,7 @@ export default function Home() {
         />
         <meta
           name="keywords"
-          content="News, Headlines, Breaking News, News Charcha, Charcha, News Charcha Official, India News, Digital News"
+          content="News, Headlines, Breaking News, News Charcha, Charcha, News Charcha Official, India News, Digital News, latest news , Smita Singh"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         
