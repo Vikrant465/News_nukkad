@@ -4,9 +4,7 @@ const uri = process.env.MONGODB_URI as string;
 if (!uri) {
   throw new Error("Please add your MongoDB URI to .env.local");
 }
-
 const options = {};
-// Extend Node's global type so TypeScript doesn’t complain
 declare global {
   // eslint-disable-next-line no-var
   var _mongoClientPromise: Promise<MongoClient> | undefined;

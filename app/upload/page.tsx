@@ -4,6 +4,7 @@ import { Button, Input, Textarea, Alert } from '@heroui/react';
 import { uploadBlog } from './action';
 import Nav from '../../components/nav';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export default function UploadPage() {
   const [title, setTitle] = useState('');
@@ -12,6 +13,7 @@ export default function UploadPage() {
   const [video, setVideo] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
+  const route = useRouter();
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -28,6 +30,7 @@ export default function UploadPage() {
       setContent('');
       // setImage(null);
       // setVideo(null);  
+      route.push('/blog');
 
     } else {
       alert('Upload failed!');

@@ -1,5 +1,6 @@
 import clientPromise from "@/app/lib/mongodb";
 import { NextResponse } from "next/server";
+import { ObjectId } from "mongodb"
 
 export async function GET() {
   try {
@@ -34,5 +35,59 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("❌ Error saving blog:", error);
     return NextResponse.json({ error: "Failed to save blog" }, { status: 500 });
+  }
+}
+
+// export async function DELETE(req :){
+//   try{
+//     // const { searchParams } = new URL(req.url);
+//     const id = req._id;
+//     if(!id){
+//       return NextResponse.json({error : "No Blog ID found"}, { status : 400});
+//     }
+//     const client = await clientPromise;
+//     const db = client.db("news_charcha");
+//     const result = await db.collection("blog").deleteOne({_id: new ObjectId("id") });
+//     if(result.deletedCount === 0){
+//       return NextResponse.json({ error: "Blog not found" }, { status: 404 })
+//     }
+//     return NextResponse.json({message : "Blog deleted Successfully"})
+//   }catch (error) {
+//     console.error("❌ Error deleting blog:", error);
+//     return NextResponse.json({ error: "Failed to delete blog" }, { status: 500 });
+//   }
+// }
+export async function DELETE(req: Request) {
+  try {
+    const { id } = await req.json(); // <-- frontend must send JSON { id }
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "No Blog ID found" },
+        { status: 400 }
+      );
+    }
+    console.log(id)
+    const client = await clientPromise;
+    const db = client.db("news_charcha");
+
+    const result = await db.collection("blog").deleteOne({
+      _id: new ObjectId(id as string),
+    });
+    console.log("result : ",result)
+    if (result.deletedCount === 0) {
+      return NextResponse.json(
+        { error: "Blog not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ message: "Blog deleted successfully" });
+  } catch (error) {
+    console.error("❌ Error deleting blog:", error);
+    return NextResponse.json(
+      { error: "Failed to delete blog" },
+      { status: 500 }
+    );
   }
 }

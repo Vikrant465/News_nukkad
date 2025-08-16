@@ -21,6 +21,7 @@ export default function BlogPage() {
         const res = await fetch('/api/blogs');
         if (!res.ok) throw new Error("Failed to fetch blogs");
         const data: BlogPost[] = await res.json();
+        console.log(data);
         setBlogs(data);
       } catch (err) {
         console.error("❌ Error fetching blogs:", err);
