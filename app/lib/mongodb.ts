@@ -6,22 +6,17 @@ if (!uri) {
 }
 
 const options = {};
-
-// Global variable for caching the client across hot reloads in dev
-let client: MongoClient;
-let clientPromise: Promise<MongoClient>;
-
 // Extend Node's global type so TypeScript doesn’t complain
 declare global {
   // eslint-disable-next-line no-var
   var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
+const client = new MongoClient(uri, options);
+const clientPromise =
+  global._mongoClientPromise || client.connect();
 
-if (!global._mongoClientPromise) {
-  client = new MongoClient(uri, options);
-  global._mongoClientPromise = client.connect();
+if (process.env.NODE_ENV !== "production") {
+  global._mongoClientPromise = clientPromise;
 }
-
-clientPromise = global._mongoClientPromise;
 
 export default clientPromise;
