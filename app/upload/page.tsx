@@ -18,6 +18,7 @@ export default function UploadPage() {
     if (!title || !content) return alert("Title and Content are required!");
     setLoading(true);
     try {
+      // 1. Save blog meta first
       const res1 = await fetch('/api/blogs', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -28,7 +29,8 @@ export default function UploadPage() {
           videoName: video?.name ?? null,
         }),
       });
-      
+
+      // 2. Upload Image to S3 (if exists)
       if (image) {
         const presignRes = await fetch("/api/s3/getimages", {
           method: "POST",
@@ -39,17 +41,34 @@ export default function UploadPage() {
           }),
         });
         const { url } = await presignRes.json();
-        // console.log("preUrl : ",url);
         const uploadRes = await fetch(url, {
           method: "PUT",
           headers: { "Content-Type": image.type },
           body: image,
         });
-        if (!uploadRes.ok) {
-          throw new Error("Failed to upload image to S3");
-        }
-        // console.log("✅ Image uploaded to S3:", image.name);
+        if (!uploadRes.ok) throw new Error("Failed to upload image to S3");
       }
+
+      // 3. Upload Video to S3 (if exists)
+      if (video) {
+        const presignRes = await fetch("/api/s3/getvideos", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fileName: video.name,
+            contentType: video.type,
+          }),
+        });
+        const { url } = await presignRes.json();
+        const uploadRes = await fetch(url, {
+          method: "PUT",
+          headers: { "Content-Type": video.type },
+          body: video,
+        });
+        if (!uploadRes.ok) throw new Error("Failed to upload video to S3");
+      }
+
+      // 4. Handle response
       const data = await res1.json();
       if (res1.ok && data.success) {
         alert('Blog uploaded!');

@@ -25,7 +25,7 @@ export default function BlogPage() {
         const blogsWithSignedUrls = await Promise.all(
           data.map(async (post) => {
             let signedImageUrl: string | undefined = undefined;
-            // let signedVideoUrl: string | undefined = undefined;
+            let signedVideoUrl: string | undefined = undefined;
 
             if (post.imageName) {
               try {
@@ -39,22 +39,22 @@ export default function BlogPage() {
               }
             }
 
-            // if (post.videoName) {
-            //   try {
-            //     const res3 = await axios.get<{ url: string }>(
-            //       `/api/s3/getvideos?fileName=${encodeURIComponent(post.videoName)}`
-            //     );
-            //     signedVideoUrl = res3.data.url;
-            //     console.log("✅ Signed Video URL:", signedVideoUrl);
-            //   } catch (err) {
-            //     console.error(`❌ Failed to fetch signed URL for ${post.videoName}`, err);
-            //   }
-            // }
+            if (post.videoName) {
+              try {
+                const res3 = await axios.get<{ url: string }>(
+                  `/api/s3/getvideos?fileName=${encodeURIComponent(post.videoName)}`
+                );
+                signedVideoUrl = res3.data.url;
+                console.log("✅ Signed Video URL:", signedVideoUrl);
+              } catch (err) {
+                console.error(`❌ Failed to fetch signed URL for ${post.videoName}`, err);
+              }
+            }
 
             return {
               ...post,
               imageUrl: signedImageUrl,
-              // videoUrl: signedVideoUrl,
+              videoUrl: signedVideoUrl,
             };
           })
         );

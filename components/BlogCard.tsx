@@ -10,6 +10,7 @@ type BlogPost = {
   imageName?: string;
   imageUrl?: string; 
   videoName?: string;
+  videoUrl?:string;
   createdAt: string;
 };
 
@@ -21,26 +22,39 @@ export default function BlogCard({ post }: { post: BlogPost }) {
   const shouldOpen = isOpen || isHovering;
 
 
-  async function handelDelete(id: string, imageName?: string) {
-    if (imageName) {
-      await fetch(`/api/s3/getimages`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fileName: imageName }),
-      });
-    }
-    const res = await fetch(`/api/blogs`, {
+  async function handelDelete(id: string, imageName?: string, videoName?: string) {
+  // Delete image if exists
+  if (imageName) {
+    await fetch(`/api/s3/getimages`, {
       method: "DELETE",
-      headers : {"Content-Type": "application/json"},
-      body: JSON.stringify({ id }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fileName: imageName, folder: "upload/image" }),
     });
-    if (res.ok) {
-      alert("Blog deleted!");
-      window.location.reload();
-    } else {
-      alert("Failed to delete blog");
-    }
   }
+
+  // Delete video if exists
+  if (videoName) {
+    await fetch(`/api/s3/getvideos`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fileName: videoName, folder: "upload/video" }),
+    });
+  }
+
+  // Delete blog entry from DB
+  const res = await fetch(`/api/blogs`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id }),
+  });
+
+  if (res.ok) {
+    alert("✅ Blog deleted!");
+    window.location.reload();
+  } else {
+    alert("❌ Failed to delete blog");
+  }
+}
   return (
     <div
       className="transition-all duration-300 w-full max-w-5xl mx-auto" // wider for desktop
@@ -75,12 +89,12 @@ export default function BlogCard({ post }: { post: BlogPost }) {
                 />
               )}
 
-              {post.videoName && (
+              {post.videoUrl && (
                 <video
                   controls
                   className="my-3 w-full max-h-96 rounded-lg"
                 >
-                  <source src={`/uploads/${post.videoName}`} />
+                  <source src={post.videoUrl} />
                 </video>
               )}
 
@@ -90,7 +104,7 @@ export default function BlogCard({ post }: { post: BlogPost }) {
             </div>
             {session?.user?.email === "truescopeyt@gmail.com" || session?.user?.email === "vikrant172singh@gmail.com" ? (
             <Button
-              onPress={() => handelDelete(post._id,post.imageName)}
+              onPress={() => handelDelete(post._id,post.imageName,post.videoName)}
               color="danger"
               variant="ghost"
               className="w-full max-w-24 self-center"
