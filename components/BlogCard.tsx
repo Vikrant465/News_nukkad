@@ -7,8 +7,9 @@ type BlogPost = {
   _id: string;
   title: string;
   content: string;
-  image?: string;
-  video?: string;
+  imageName?: string;
+  imageUrl?: string; 
+  videoName?: string;
   createdAt: string;
 };
 
@@ -20,7 +21,14 @@ export default function BlogCard({ post }: { post: BlogPost }) {
   const shouldOpen = isOpen || isHovering;
 
 
-  async function handelDelete(id: string) {
+  async function handelDelete(id: string, imageName?: string) {
+    if (imageName) {
+      await fetch(`/api/s3/getimages`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fileName: imageName }),
+      });
+    }
     const res = await fetch(`/api/blogs`, {
       method: "DELETE",
       headers : {"Content-Type": "application/json"},
@@ -59,20 +67,20 @@ export default function BlogCard({ post }: { post: BlogPost }) {
                 {post.content}
               </p>
 
-              {post.image && (
+              {post.imageUrl && (
                 <img
-                  src={`/uploads/${post.image}`}
+                  src={post.imageUrl}
                   alt={post.title}
                   className="my-3 w-full h-auto rounded-lg object-cover"
                 />
               )}
 
-              {post.video && (
+              {post.videoName && (
                 <video
                   controls
                   className="my-3 w-full max-h-96 rounded-lg"
                 >
-                  <source src={`/uploads/${post.video}`} />
+                  <source src={`/uploads/${post.videoName}`} />
                 </video>
               )}
 
@@ -82,7 +90,7 @@ export default function BlogCard({ post }: { post: BlogPost }) {
             </div>
             {session?.user?.email === "truescopeyt@gmail.com" || session?.user?.email === "vikrant172singh@gmail.com" ? (
             <Button
-              onPress={() => handelDelete(post._id)}
+              onPress={() => handelDelete(post._id,post.imageName)}
               color="danger"
               variant="ghost"
               className="w-full max-w-24 self-center"

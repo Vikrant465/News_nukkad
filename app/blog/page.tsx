@@ -2,27 +2,65 @@
 import { useEffect, useState } from 'react';
 import BlogCard from '../../components/BlogCard';
 import Nav from "../../components/nav";
+import axios from 'axios';
 
 type BlogPost = {
   _id: string;
   title: string;
   content: string;
-  image?: string ;
-  video?: string ;
+  imageName?: string;
+  videoName?: string;
   createdAt: string;
 };
 
 export default function BlogPage() {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
-  const [loading , setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function fetchBlogs() {
       try {
-        const res = await fetch('/api/blogs');
-        if (!res.ok) throw new Error("Failed to fetch blogs");
-        const data: BlogPost[] = await res.json();
-        console.log(data);
-        setBlogs(data);
+        const res1 = await axios.get<BlogPost[]>('/api/blogs');
+        const data = res1.data;
+        // console.log(data);
+        const blogsWithSignedUrls = await Promise.all(
+          data.map(async (post) => {
+            let signedImageUrl: string | undefined = undefined;
+            let signedVideoUrl: string | undefined = undefined;
+
+            if (post.imageName) {
+              try {
+                const res2 = await axios.get<{ url: string }>(
+                  `/api/s3/getimages?fileName=${encodeURIComponent(post.imageName)}`
+                );
+                signedImageUrl = res2.data.url;
+                // console.log("Signed Image URL:", signedImageUrl);
+              } catch (err) {
+                console.error(`❌ Failed to fetch signed URL for ${post.imageName}`, err);
+              }
+            }
+
+            // if (post.videoName) {
+            //   try {
+            //     const res3 = await axios.get<{ url: string }>(
+            //       `/api/s3/getvideos?fileName=${encodeURIComponent(post.videoName)}`
+            //     );
+            //     signedVideoUrl = res3.data.url;
+            //     console.log("✅ Signed Video URL:", signedVideoUrl);
+            //   } catch (err) {
+            //     console.error(`❌ Failed to fetch signed URL for ${post.videoName}`, err);
+            //   }
+            // }
+
+            return {
+              ...post,
+              imageUrl: signedImageUrl,
+              // videoUrl: signedVideoUrl,
+            };
+          })
+        );
+
+        setBlogs(blogsWithSignedUrls);
+        setBlogs(blogsWithSignedUrls);
       } catch (err) {
         console.error("❌ Error fetching blogs:", err);
       } finally {
