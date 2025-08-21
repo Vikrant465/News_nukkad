@@ -25,7 +25,7 @@ export default function BlogPage() {
         const blogsWithSignedUrls = await Promise.all(
           data.map(async (post) => {
             let signedImageUrl: string | undefined = undefined;
-            let signedVideoUrl: string | undefined = undefined;
+            // let signedVideoUrl: string | undefined = undefined;
 
             if (post.imageName) {
               try {
