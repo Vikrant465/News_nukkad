@@ -77,7 +77,7 @@ export default function BlogCard({ post }: { post: BlogPost }) {
             <div className="p-4 rounded-lg shadow-md bg-white dark:bg-zinc-900">
               <h2 className="text-lg sm:text-xl font-bold">{post.title}</h2>
 
-              <p className="my-2 text-sm sm:text-base leading-relaxed">
+              <p className="my-2 text-sm sm:text-base leading-relaxed whitespace-pre-line">
                 {post.content}
               </p>
 
