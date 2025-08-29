@@ -1,9 +1,10 @@
 'use client';
 import { useState } from 'react';
-import { Button, Input, Textarea, Alert } from '@heroui/react';
+import { Button, Input, Textarea, Alert, CheckboxGroup, Checkbox } from '@heroui/react';
 import Nav from '../../components/nav';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import React from "react";
 
 export default function UploadPage() {
   const [title, setTitle] = useState('');
@@ -13,6 +14,7 @@ export default function UploadPage() {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
   const route = useRouter();
+  const [category, setCategory] = React.useState(["all"]);
 
   const handleSubmit = async () => {
     if (!title || !content) return alert("Title and Content are required!");
@@ -25,6 +27,7 @@ export default function UploadPage() {
         body: JSON.stringify({
           title,
           content,
+          category,
           imageName: image?.name ?? null,
           videoName: video?.name ?? null,
         }),
@@ -87,7 +90,7 @@ export default function UploadPage() {
 
     setLoading(false);
   };
-
+  
   return (
     <div>
       {session?.user?.email === "truescopeyt@gmail.com" || session?.user?.email === "vikrant172singh@gmail.com" ? (
@@ -96,6 +99,26 @@ export default function UploadPage() {
           <div className="w-full max-w-xl mx-auto p-6 space-y-4">
             <h1 className="text-2xl font-bold">Upload Blog</h1>
             <div className='flex flex-col gap-4'>
+              
+              <div className="flex flex-row gap-3">
+                <CheckboxGroup
+                  color="primary"
+                  label="Select category"
+                  value={category}
+                  orientation="horizontal"
+                  onValueChange={setCategory}
+                >
+                  <Checkbox value="all">All</Checkbox>
+                  <Checkbox value="business">Business</Checkbox>
+                  <Checkbox value="cricket">Cricket</Checkbox>
+                  <Checkbox value="entertainment">Entertainment</Checkbox>
+                  <Checkbox value="international">Inter-National</Checkbox>
+                  <Checkbox value="national">National</Checkbox>
+                  <Checkbox value="sports">Sports</Checkbox>
+                  <Checkbox value="tech">Tech</Checkbox>
+                </CheckboxGroup>
+                <p className="text-default-500 text-small border-b-amber-300">Category: {category.join(" ")}</p>
+              </div>
               <Input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
               <Textarea placeholder="Content" variant="bordered" rows={5} value={content} onChange={(e) => setContent(e.target.value)} />
               <Input type="file" label="Upload Image" accept="image/*" onChange={(e) => setImage(e.target.files?.[0] ?? null)} />

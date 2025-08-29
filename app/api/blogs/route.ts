@@ -18,7 +18,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const { title, content, imageName, videoName } = await req.json();
+    const { title, content,category, imageName, videoName } = await req.json();
     if (!title || !content) {
       return NextResponse.json({ success: false, error: "Title and Content are required" }, { status: 400 });
     }
@@ -30,6 +30,7 @@ export async function POST(req: Request) {
     const newBlog = {
       title,
       content,
+      category,
       imageName: imageName || null,
       videoName: videoName || null,
       createdAt: new Date(),
