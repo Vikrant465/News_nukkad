@@ -18,12 +18,12 @@ export default function Home() {
           content="News, Headlines, Breaking News, News Charcha, Charcha, News Charcha Official, India News, Digital News, latest news , Smita Singh"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        
+
       </Head>
 
       <div className="flex flex-col h-screen bg-white text-black dark:bg-zinc-900 dark:text-white transition-colors duration-300">
-            <Nav />
-        
+        <Nav />
+
         <section className="flex flex-col-reverse h-screen md:flex-row items-center justify-between gap-10 p-10 bg-gradient-to-r from-blue-100 to-white dark:from-zinc-800 dark:to-zinc-900 transition-all duration-500">
           <div className="flex flex-col items-start max-w-xl">
             <h1 className="text-5xl font-bold mb-4">
@@ -33,8 +33,10 @@ export default function Home() {
               </span>
             </h1>
             <p className="text-xl mb-6">
-              Your digital street corner for breaking news, headlines, and
-              stories that matter.
+              Welcome to News Charcha Official, your space for fearless and meaningful conversations on news that matters.
+              From breaking headlines to ground reports, political debates to social issues, we bring you truthful, unbiased, and engaging discussions in a language you understand — a mix of Hindi and English (Hinglish).
+              Here, we don’t just deliver news — we talk about it, question it, and dig deeper.
+              Whether it’s the latest policy, a viral trend, or a story that mainstream media missed — you’ll find it here, discussed openly and honestly.
             </p>
             <div className="flex flex-row sm:flex-row gap-4">
               <Button variant="solid" size="lg" className="transition-all duration-300" onPress={() => window.open("https://www.youtube.com/@NewsCharchaOfficial", "_blank")}>
