@@ -71,7 +71,7 @@ export default function Nav() {
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
           <Link color="foreground" href="/">
-            About
+            Home
           </Link>
         </NavbarItem>
         <NavbarItem >
@@ -131,7 +131,7 @@ export default function Nav() {
       <NavbarMenu>
         <NavbarMenuItem>
           <Link className="w-full" color="foreground" href="/" size="lg">
-            About
+            Home
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
