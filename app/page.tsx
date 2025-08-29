@@ -38,10 +38,10 @@ export default function Home() {
             </p>
             <p className="text-base sm:text-lg md:text-xl mb-4">
               From breaking headlines to ground reports, political debates to social issues, we bring you truthful, unbiased, and engaging discussions in a language you understand &mdash; a mix of Hindi and English (Hinglish).
-              Here, we don't just deliver news &mdash; we talk about it, question it, and dig deeper.
+              Here, we don&apos;t just deliver news &mdash; we talk about it, question it, and dig deeper.
             </p>
             <p className="text-base sm:text-lg md:text-xl mb-6">
-              Whether it's the latest policy, a viral trend, or a story that mainstream media missed &mdash; you'll find it here, discussed openly and honestly.
+              Whether it&apos;s the latest policy, a viral trend, or a story that mainstream media missed &mdash; you&apos;ll find it here, discussed openly and honestly.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
               <Button
