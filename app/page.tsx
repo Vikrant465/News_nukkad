@@ -34,8 +34,12 @@ export default function Home() {
             </h1>
             <p className="text-xl mb-6">
               Welcome to News Charcha Official, your space for fearless and meaningful conversations on news that matters.
+            </p>
+            <p className="text-xl mb-6">
               From breaking headlines to ground reports, political debates to social issues, we bring you truthful, unbiased, and engaging discussions in a language you understand — a mix of Hindi and English (Hinglish).
               Here, we don’t just deliver news — we talk about it, question it, and dig deeper.
+            </p>
+            <p className="text-xl mb-6">
               Whether it’s the latest policy, a viral trend, or a story that mainstream media missed — you’ll find it here, discussed openly and honestly.
             </p>
             <div className="flex flex-row sm:flex-row gap-4">
