@@ -1,10 +1,8 @@
-
 'use client';
 import { useEffect, useState } from 'react';
 import BlogCard from '../../components/BlogCard';
 import Nav from "../../components/nav";
 import axios from 'axios';
-import {Autocomplete, AutocompleteItem} from "@heroui/react";
 
 type BlogPost = {
   _id: string;
@@ -77,14 +75,14 @@ export default function BlogPage() {
 
   // ✅ category options
   const selection = [
-    {label: "All", key: "all"},
-    {label: "Business", key: "business"},
-    {label: "Cricket", key: "cricket"},
-    {label: "Entertainment", key: "entertainment"},
-    {label: "Inter-National", key: "international"},
-    {label: "National", key: "national"},
-    {label: "Sports", key: "sports"},
-    {label: "Tech", key: "tech"},
+    { label: "All", key: "all" },
+    { label: "Business", key: "business" },
+    { label: "Cricket", key: "cricket" },
+    { label: "Entertainment", key: "entertainment" },
+    { label: "Inter-National", key: "international" },
+    { label: "National", key: "national" },
+    { label: "Sports", key: "sports" },
+    { label: "Tech", key: "tech" },
   ];
 
   // ✅ filter blogs based on selected category
@@ -95,24 +93,30 @@ export default function BlogPage() {
   return (
     <div className='flex flex-col min-h-screen bg-white text-black dark:bg-zinc-900 dark:text-white transition-colors duration-300'>
       <Nav />
-      <div className="flex flex-col max-w-3xl w-full mx-auto p-6 space-y-6">
-        <div className='flex place-content-around'>
-          <h1 className="text-3xl font-bold mb-4">
-            {selectedCategory === "all" ? "All Blogs" : `${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} News`}
-          </h1>
 
-          <Autocomplete
-            isRequired
-            className="max-w-xs"
-            defaultItems={selection}
-            defaultSelectedKey="all"
-            label="Select Category"
-            selectedKey={selectedCategory}
-            onSelectionChange={(key) => setSelectedCategory(key as string)}  // ✅ update filter
+      {/* ✅ Category Buttons below navbar */}
+      <div className="flex flex-wrap justify-center gap-3 p-4 border-b border-gray-200 dark:border-gray-700">
+        {selection.map((item) => (
+          <button
+            key={item.key}
+            onClick={() => setSelectedCategory(item.key)}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200
+              ${selectedCategory === item.key
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200"}
+            `}
           >
-            {(item) => <AutocompleteItem key={item.key}>{item.label}</AutocompleteItem>}
-          </Autocomplete>
-        </div>
+            {item.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="flex flex-col max-w-3xl w-full mx-auto p-6 space-y-6">
+        <h1 className="text-3xl font-bold mb-4 text-center">
+          {selectedCategory === "all"
+            ? "All Blogs"
+            : `${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} News`}
+        </h1>
 
         <div className='flex flex-col gap-7'>
           {loading ? (
