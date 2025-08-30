@@ -7,6 +7,7 @@ type BlogPost = {
   _id: string;
   title: string;
   content: string;
+  category: string[];
   imageName?: string;
   imageUrl?: string;
   videoName?: string;
