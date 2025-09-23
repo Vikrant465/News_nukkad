@@ -59,9 +59,9 @@ export default function Home() {
                 variant="solid"
                 size="lg"
                 className="w-full sm:w-auto transition-all duration-300"
-                href="/blog"
+                href="/news"
               >
-                Explore Blogs
+                Explore News
               </Button>
             </div>
           </div>

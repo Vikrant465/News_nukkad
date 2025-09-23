@@ -22,7 +22,8 @@ export const AcmeLogo = () => {
     <Image
       alt="logo"
       src="/favicon.ico.png"
-      width={100}
+
+      width={125}
     />
   );
 };
@@ -56,15 +57,18 @@ export default function Nav() {
   };
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen}>
+    <div className="">
+      <Navbar onMenuOpenChange={setIsMenuOpen} height="2rem" className="p-2">
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
         <NavbarBrand className="hidden sm:flex gap-4">
-          <AcmeLogo />
-          <p className="font-bold text-inherit">News Charcha Official</p>
+          <div className="mt-7 mr-10">
+            <AcmeLogo />
+          </div>
+          <p className="font-bold text-sm text-inherit">NEWS CHARCHA OFFICEAL</p>
         </NavbarBrand>
       </NavbarContent>
 
@@ -75,8 +79,8 @@ export default function Nav() {
           </Link>
         </NavbarItem>
         <NavbarItem >
-          <Link aria-current="page" href="/blog">
-            Blog
+          <Link aria-current="page" href="/news">
+            News
           </Link>
         </NavbarItem>
         {isAuthenticated ? (
@@ -85,7 +89,7 @@ export default function Nav() {
               Upload
             </Link>
           </NavbarItem>
-        ) :undefined
+        ) : undefined
         }
 
       </NavbarContent>
@@ -99,14 +103,14 @@ export default function Nav() {
               </p>
             </NavbarItem>
             <NavbarItem>
-              <Button color="danger" variant="ghost" onPress={() => signOut()}>
+              <Button size="sm" color="danger" variant="ghost" onPress={() => signOut()}>
                 Sign Out
               </Button>
             </NavbarItem>
           </>
         ) : (
           <NavbarItem>
-            <Button color="primary" onPress={() => signIn("google")}>
+            <Button size="sm" color="primary" onPress={() => signIn("google")}>
               Google Login
             </Button>
           </NavbarItem>
@@ -115,7 +119,7 @@ export default function Nav() {
           <Switch
             isSelected={isDark}
             onValueChange={toggleTheme}
-            size="md"
+            size="sm"
             color="primary"
             thumbIcon={({ isSelected, className }) =>
               isSelected ? (
@@ -135,8 +139,8 @@ export default function Nav() {
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
-          <Link className="w-full" color="primary" href="/blog" size="lg">
-            Blog
+          <Link className="w-full" color="primary" href="/news" size="lg">
+            News
           </Link>
         </NavbarMenuItem>
         {isAuthenticated ? (
@@ -145,7 +149,7 @@ export default function Nav() {
               Upload
             </Link>
           </NavbarItem>
-        ) :undefined
+        ) : undefined
         }
         {isAuthenticated && (
           <NavbarMenuItem>
@@ -153,6 +157,7 @@ export default function Nav() {
               color="danger"
               variant="light"
               className="w-full"
+              size="sm"
               onPress={() => signOut()}
             >
               Sign Out
@@ -161,5 +166,6 @@ export default function Nav() {
         )}
       </NavbarMenu>
     </Navbar>
+    </div>
   );
 }
