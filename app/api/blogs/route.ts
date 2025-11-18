@@ -60,6 +60,10 @@ export async function DELETE(req: Request) {
     const client = await clientPromise;
     const db = client.db("news_charcha");
 
+    
+
+
+
     const result = await db.collection("blog").deleteOne({
       _id: new ObjectId(id as string),
     });
@@ -80,4 +84,3 @@ export async function DELETE(req: Request) {
     );
   }
 }
-

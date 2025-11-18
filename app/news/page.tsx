@@ -6,14 +6,15 @@ import Link from "next/link";
 import { BlogPost, addSignedUrls } from "../lib/addSignedUrls";
 import { Button } from '@heroui/react';
 import { useSession } from 'next-auth/react';
+import { Router } from 'next/router';
 
 export default function BlogPage() {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
-  const { data: session } = useSession(); 
-  const adminEmails = ["truescopeyt@gmail.com"];
+  const { data: session } = useSession();
+  const adminEmails = ["truescopeyt@gmail.com", "vikrant172singh@gmail.com"];
   const isAdmin = adminEmails.includes(session?.user?.email || "");
 
   useEffect(() => {
@@ -34,27 +35,65 @@ export default function BlogPage() {
         setLoading(false);
       }
     }
-
     fetchBlogs();
   }, []);
-  async function handleDelete(id: string) {
-  if (!confirm("Are you sure you want to delete this blog?")) return;
 
-  try {
-    const res = await axios.delete("/api/blogs", {
-      data: { id },
-      headers: { "Content-Type": "application/json" },
-    });
+  // async function handleDelete(id: string) {
+  //   if (!confirm("Are you sure you want to delete this blog?")) return;
 
-    if (res.status === 200) {
-      alert("Blog deleted!");
-      setBlogs((prev) => prev.filter((b) => b._id !== id)); // remove without reload
+  //   try {
+  //     const res = await axios.delete("/api/blogs", {
+  //       data: { id },
+  //       headers: { "Content-Type": "application/json" },
+  //     });
+
+      // if (res.status === 200) {
+      //   alert("Blog deleted!");
+      //   setBlogs((prev) => prev.filter((b) => b._id !== id)); // remove without reload
+      // }
+  //   } catch (err) {
+  //     console.error("❌ Error deleting blog:", err);
+  //     alert("Failed to delete blog");
+  //   }
+  // }
+  async function handleDelete(blog: BlogPost) {
+    if (!confirm("Are you sure you want to delete this blog?")) return;
+    try {
+      // 1. Delete image from S3 (if exists)
+      if (blog.imageName) {
+        await fetch("/api/s3/getimages", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ fileName: blog.imageName }),
+        });
+      }
+
+      // 2. Delete video from S3 (if exists)
+      if (blog.videoName) {
+        await fetch("/api/s3/getvideos", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ fileName: blog.videoName }),
+        });
+      }
+
+      // 3. Delete blog entry from MongoDB
+      const res = await fetch("/api/blogs", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: blog._id }),
+      });
+
+      if (res.status === 200) {
+        alert("Blog deleted!");
+        setBlogs((prev) => prev.filter((b) => b._id !== blog._id)); // remove without reload
+      }
+    } catch (error) {
+      alert("Failed to delete blog");
+      console.error(error);
     }
-  } catch (err) {
-    console.error("❌ Error deleting blog:", err);
-    alert("Failed to delete blog");
   }
-}
+
 
 
   // ✅ category options
@@ -123,15 +162,15 @@ export default function BlogPage() {
 
                 {/* Delete Button */}
                 {isAdmin && (
-                <Button
-                  size='sm'
-                  color='danger'
-                  variant="ghost"
-                  onPress={() => handleDelete(post._id)}
+                  <Button
+                    size='sm'
+                    color='danger'
+                    variant="ghost"
+                    onPress={() => handleDelete(post)}
                   // className="mt-3 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 text-sm"
-                >
-                  Delete
-                </Button>
+                  >
+                    Delete
+                  </Button>
                 )}
               </div>
             ))

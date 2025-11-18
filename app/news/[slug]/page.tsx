@@ -16,10 +16,10 @@ export default function BlogDetailPage() {
         const res1 = await axios.get<BlogPost[]>('/api/blogs');
         const data1 = res1.data;
         const found = data1.find((b) => b.slug === slug);
-        
-        console.log("Found blog:", found);
-        console.log("Searching for slug:", slug);
-        console.log("All slugs:", data1.map(b => b.slug));
+
+        // console.log("Found blog:", found);
+        // console.log("Searching for slug:", slug);
+        // console.log("All slugs:", data1.map(b => b.slug));
         if (!found) {
           setPost(null);
           return;
