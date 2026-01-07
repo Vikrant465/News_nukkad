@@ -5,6 +5,7 @@ import Nav from '../../components/nav';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React from "react";
+import { s } from 'framer-motion/client';
 
 export default function UploadPage() {
   const [title, setTitle] = useState('');
@@ -21,13 +22,23 @@ export default function UploadPage() {
     if (!title || !content || !slug) return alert("Title, Slug and Content are required!");
     setLoading(true);
     try {
+      // check the custom slug format if slug has spaces replace it with - . then pass it to the api
+      const formattedSlug = slug
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, '-')           // Replace spaces with hyphens
+        .replace(/[^\w\-]+/g, '-')      // Replace special characters with hyphens
+        .replace(/\-\-+/g, '-')         // Replace multiple hyphens with single hyphen
+        .replace(/^-+/, '')             // Remove leading hyphens
+        .replace(/-+$/, '');
+
       // 1. Save blog meta with custom slug
       const res1 = await fetch('/api/blogs', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title,
-          slug,   // ✅ custom slug
+          slug: formattedSlug,   // ✅ custom slug
           content,
           category,
           imageName: image?.name ?? null,
@@ -93,7 +104,7 @@ export default function UploadPage() {
 
     setLoading(false);
   };
-  
+
   return (
     <div>
       {session?.user?.email === "truescopeyt@gmail.com" || session?.user?.email === "vikrant172singh@gmail.com" ? (
@@ -102,7 +113,7 @@ export default function UploadPage() {
           <div className="w-full max-w-xl mx-auto p-6 space-y-4">
             <h1 className="text-2xl font-bold">Upload Blog</h1>
             <div className='flex flex-col gap-4'>
-              
+
               <div className="flex flex-row gap-3">
                 <CheckboxGroup
                   color="primary"
