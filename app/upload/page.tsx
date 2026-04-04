@@ -21,7 +21,7 @@ export default function UploadPage() {
   const handleSubmit = async () => {
     if (!title || !content || !slug) return alert("Title, Slug and Content are required!");
     setLoading(true);
-    try {
+    try { 
       // check the custom slug format if slug has spaces replace it with - . then pass it to the api
       const formattedSlug = slug
         .trim()
