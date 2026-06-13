@@ -22,8 +22,9 @@ export const AcmeLogo = () => {
     <Image
       alt="logo"
       src="/favicon.ico.png"
-
-      width={125}
+      width={105}
+      height={90}
+      className="object-contain"
     />
   );
 };
@@ -58,114 +59,123 @@ export default function Nav() {
 
   return (
     <div className="">
-      <Navbar onMenuOpenChange={setIsMenuOpen} height="2rem" className="p-2">
+      <Navbar onMenuOpenChange={setIsMenuOpen} height="2rem" className="p-3 w-full">
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
-        <NavbarBrand className="hidden sm:flex gap-4">
-          <div className="mt-7 mr-10">
+
+        <NavbarBrand className="hidden sm:flex gap-4 items-center justify-start ">
+
+          <div className="mt-7 mr-1">
             <AcmeLogo />
           </div>
-          <p className="font-bold text-sm text-inherit">NEWS CHARCHA OFFICEAL</p>
+          <div className="hidden sm:block">
+            <h1 className="text-base md:text-lg font-black uppercase tracking-wider leading-tight whitespace-nowrap">
+              News Charcha
+            </h1>
+            <p className="text-[9px] text-yellow-300 uppercase tracking-widest">
+              Official
+            </p>
+          </div>
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem>
-          <Link color="foreground" href="/">
-            Home
-          </Link>
-        </NavbarItem>
-        <NavbarItem >
-          <Link aria-current="page" href="/news">
-            News
-          </Link>
-        </NavbarItem>
-        {isAuthenticated ? (
-          <NavbarItem >
-            <Link aria-current="page" href="/upload">
-              Upload
+        <NavbarContent justify="center" className="hidden sm:flex gap-4 " >
+          <NavbarItem>
+            <Link color="foreground" href="/">
+              Home
             </Link>
           </NavbarItem>
-        ) : undefined
-        }
-
-      </NavbarContent>
-
-      <NavbarContent justify="end" className="items-center gap-4">
-        {isAuthenticated ? (
-          <>
-            <NavbarItem>
-              <p className="text-sm font-medium">
-                Hello, {session?.user?.name || "User"}
-              </p>
+          <NavbarItem >
+            <Link aria-current="page" href="/news">
+              News
+            </Link>
+          </NavbarItem>
+          {isAuthenticated ? (
+            <NavbarItem >
+              <Link aria-current="page" href="/upload">
+                Upload
+              </Link>
             </NavbarItem>
+          ) : undefined
+          }
+
+        </NavbarContent>
+
+        <NavbarContent justify="end" className="items-center gap-4 ">
+          {isAuthenticated ? (
+            <>
+              <NavbarItem>
+                <p className="text-sm font-medium">
+                  Hello, {session?.user?.name || "User"}
+                </p>
+              </NavbarItem>
+              <NavbarItem>
+                <Button size="sm" color="danger" variant="ghost" onPress={() => signOut()}>
+                  Sign Out
+                </Button>
+              </NavbarItem>
+            </>
+          ) : (
             <NavbarItem>
-              <Button size="sm" color="danger" variant="ghost" onPress={() => signOut()}>
-                Sign Out
+              <Button size="sm" color="primary" onPress={() => signIn("google")}>
+                Google Login
               </Button>
             </NavbarItem>
-          </>
-        ) : (
-          <NavbarItem>
-            <Button size="sm" color="primary" onPress={() => signIn("google")}>
-              Google Login
-            </Button>
-          </NavbarItem>
-        )}
-        <NavbarItem>
-          <Switch
-            isSelected={isDark}
-            onValueChange={toggleTheme}
-            size="sm"
-            color="primary"
-            thumbIcon={({ isSelected, className }) =>
-              isSelected ? (
-                <SunIcon className={className} />
-              ) : (
-                <MoonIcon className={className} />
-              )
-            }
-          />
-        </NavbarItem>
-      </NavbarContent>
-
-      <NavbarMenu>
-        <NavbarMenuItem>
-          <Link className="w-full" color="foreground" href="/" size="lg">
-            Home
-          </Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link className="w-full" color="primary" href="/news" size="lg">
-            News
-          </Link>
-        </NavbarMenuItem>
-        {isAuthenticated ? (
+          )}
           <NavbarItem >
-            <Link aria-current="page" href="/upload">
-              Upload
-            </Link>
-          </NavbarItem>
-        ) : undefined
-        }
-        {isAuthenticated && (
-          <NavbarMenuItem>
-            <Button
-              color="danger"
-              variant="light"
-              className="w-full"
+            <Switch
+              isSelected={isDark}
+              onValueChange={toggleTheme}
               size="sm"
-              onPress={() => signOut()}
-            >
-              Sign Out
-            </Button>
+              color="primary"
+              thumbIcon={({ isSelected, className }) =>
+                isSelected ? (
+                  <SunIcon className={className} />
+                ) : (
+                  <MoonIcon className={className} />
+                )
+              }
+            />
+          </NavbarItem>
+        </NavbarContent>
+
+        <NavbarMenu>
+          <NavbarMenuItem>
+            <Link className="w-full" color="foreground" href="/" size="lg">
+              Home
+            </Link>
           </NavbarMenuItem>
-        )}
-      </NavbarMenu>
-    </Navbar>
+          <NavbarMenuItem>
+            <Link className="w-full" color="primary" href="/news" size="lg">
+              News
+            </Link>
+          </NavbarMenuItem>
+          {isAuthenticated ? (
+            <NavbarItem >
+              <Link aria-current="page" href="/upload">
+                Upload
+              </Link>
+            </NavbarItem>
+          ) : undefined
+          }
+          {isAuthenticated && (
+            <NavbarMenuItem>
+              <Button
+                color="danger"
+                variant="light"
+                className="w-full"
+                size="sm"
+                onPress={() => signOut()}
+              >
+                Sign Out
+              </Button>
+            </NavbarMenuItem>
+          )}
+        </NavbarMenu>
+      </Navbar>
     </div>
   );
 }
